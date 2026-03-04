@@ -6,8 +6,8 @@
   <title>ระบบบันทึกข้อมูล Case</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -21,123 +21,210 @@
   </script>
   <style>
     * { font-family: 'Sarabun', sans-serif; }
+    
+    /* Header Gradient with Enhanced Effects */
     .gradient-header {
-      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #0ea5e9 100%);
+      background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #2dd4bf 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(13, 148, 136, 0.3);
     }
+    
+    .gradient-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    
+    .gradient-header::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+    
+    /* Card Styling with Glassmorphism */
     .card-shadow {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
     }
+    
+    /* Form Elements */
     select, input, textarea {
       font-size: 14px;
+      transition: all 0.3s ease;
     }
+    
+    input:not([readonly]), select, textarea {
+      background: linear-gradient(135deg, #f0fdf9 0%, #ffffff 100%) !important;
+      border: 2px solid #d1fae5 !important;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #334155 !important;
+      font-weight: 500 !important;
+      opacity: 1 !important;
+    }
+    
+    input:not([readonly]):focus, select:focus, textarea:focus {
+      border: 2px solid #14b8a6 !important;
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15), inset 0 2px 4px rgba(20, 184, 166, 0.05) !important;
+      background: #ffffff !important;
+      transform: scale(1.01);
+    }
+    
+    input:not([readonly]):hover, select:hover, textarea:hover {
+      border: 2px solid #14b8a6 !important;
+      box-shadow: 0 4px 16px rgba(20, 184, 166, 0.15) !important;
+    }
+    
+    /* Button Styles - Modern & Premium */
     .btn-primary {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
+    
     .btn-primary:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      background: linear-gradient(135deg, #0e7490 0%, #155e75 100%);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(6, 182, 212, 0.45);
     }
+    
+    .btn-primary:active {
+      transform: translateY(-2px);
+    }
+    
     .btn-success {
-      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
+    
     .btn-success:hover {
-      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+      background: linear-gradient(135deg, #0d9488 0%, #134e4a 100%);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(20, 184, 166, 0.45);
     }
+    
+    .btn-success:active {
+      transform: translateY(-2px);
+    }
+    
     .btn-danger {
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
+    
     .btn-danger:hover {
-      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(220, 38, 38, 0.45);
     }
+    
+    .btn-danger:active {
+      transform: translateY(-2px);
+    }
+    
+    /* Status Badge */
     .status-badge {
       font-size: 12px;
       padding: 4px 12px;
       border-radius: 20px;
     }
+    
+    /* Live Status */
     .live-status {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(34, 197, 94, 0.15);
-      backdrop-filter: blur(12px);
-      padding: 10px 18px;
-      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px);
+      padding: 12px 20px;
+      border-radius: 30px;
       font-size: 14px;
       font-weight: 600;
-      color: #10b981;
-      border: 1.5px solid rgba(34, 197, 94, 0.3);
-      box-shadow: 0 8px 32px rgba(34, 197, 94, 0.1);
+      color: #ffffff;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      animation: float 3s ease-in-out infinite;
     }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    
     .status-dot {
       width: 10px;
       height: 10px;
-      background: #10b981;
+      background: #ffffff;
       border-radius: 50%;
       animation: pulse 2.5s infinite;
       flex-shrink: 0;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
     }
+    
     @keyframes pulse {
       0%, 100% {
         opacity: 1;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
       }
       50% {
         opacity: 0.9;
       }
       70% {
-        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
       }
     }
-    .toast-container {
+    
+    /* Toast Notification */
+    .toast-notification {
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 9999;
-      pointer-events: none;
-    }
-    .toast {
       background: white;
-      padding: 16px 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-      margin-bottom: 12px;
+      border-radius: 16px;
+      padding: 16px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 300px;
-      pointer-events: auto;
-      animation: slideIn 0.4s ease-out;
-      border-left: 4px solid #10b981;
+      z-index: 9999;
+      animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 420px;
+      border-left: 5px solid;
+      backdrop-filter: blur(10px);
     }
-    .toast.success {
-      border-left-color: #10b981;
-    }
-    .toast.error {
-      border-left-color: #dc2626;
-    }
-    .toast.info {
-      border-left-color: #3b82f6;
-    }
-    .toast-icon {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-    .toast.success .toast-icon { color: #10b981; }
-    .toast.error .toast-icon { color: #dc2626; }
-    .toast.info .toast-icon { color: #3b82f6; }
-    .toast-text {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1f2937;
-      line-height: 1.4;
-    }
+    
     @keyframes slideIn {
       from {
-        transform: translateX(100%);
+        transform: translateX(500px);
         opacity: 0;
       }
       to {
@@ -145,115 +232,542 @@
         opacity: 1;
       }
     }
+    
     @keyframes slideOut {
       from {
         transform: translateX(0);
         opacity: 1;
       }
       to {
-        transform: translateX(100%);
+        transform: translateX(500px);
         opacity: 0;
       }
     }
-    .toast.hide {
-      animation: slideOut 0.4s ease-out forwards;
+    
+    .toast-notification.success {
+      border-left-color: #14b8a6;
     }
+    
+    .toast-notification.success .toast-icon {
+      color: #14b8a6;
+      font-size: 24px;
+    }
+    
+    .toast-notification.error {
+      border-left-color: #dc2626;
+    }
+    
+    .toast-notification.error .toast-icon {
+      color: #dc2626;
+      font-size: 24px;
+    }
+    
+    .toast-notification.hide {
+      animation: slideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    
+    .toast-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .toast-title {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 14px;
+    }
+    
+    .toast-message {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    
+    /* Form Animation */
+    .form-clearing {
+      animation: shimmer 0.6s ease-in-out;
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background: rgba(255, 255, 255, 0);
+      }
+      50% {
+        background: rgba(20, 184, 166, 0.1);
+      }
+      100% {
+        background: rgba(255, 255, 255, 0);
+      }
+    }
+    
+    /* Input Focus Animation */
+    input:focus, select:focus, textarea:focus {
+      animation: inputFocus 0.3s ease-out;
+    }
+    
+    @keyframes inputFocus {
+      0% {
+        transform: scale(0.98);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    
+    /* Card Hover Effect */
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(0);
+      border-radius: 16px;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(13, 148, 136, 0.2);
+    }
+    
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    
+    .modal-overlay.hidden {
+      display: none;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    @keyframes modalSlide {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+    
+    .modal-text {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    
+    .modal-button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    
+    .modal-button-primary {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+    
+    .modal-button-primary:hover {
+      background: linear-gradient(135deg, #0e7490 0%, #155e75 100%);
+      transform: translateY(-2px);
+    }
+    
+    .modal-button-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    
+    .modal-button-secondary:hover {
+      background: #d1d5db;
+    }
+    
+    .modal-button-danger {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+    
+    .modal-button-danger:hover {
+      background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+      transform: translateY(-2px);
+    }
+    
+    .modal-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .modal-loading {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .spinner {
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #06b6d4;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .modal-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .modal-list li {
+      padding: 6px 0;
+      color: #dc2626;
+    }
+
+    /* Page Load Animation */
+    @keyframes pageLoadFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      animation: pageLoadFade 0.8s ease-out;
+    }
+
+    main {
+      animation: pageLoadFade 1s ease-out 0.2s both;
+    }
+
+    footer {
+      animation: pageLoadFade 0.8s ease-out 1.2s both;
+    }
+
+    /* Form Field Entrance Animation */
+    .grid > div {
+      animation: slideInUp 0.6s ease-out backwards;
+    }
+
+    .grid > div:nth-child(1) { animation-delay: 0.1s; }
+    .grid > div:nth-child(2) { animation-delay: 0.15s; }
+    .grid > div:nth-child(3) { animation-delay: 0.2s; }
+    .grid > div:nth-child(4) { animation-delay: 0.25s; }
+    .grid > div:nth-child(5) { animation-delay: 0.3s; }
+    .grid > div:nth-child(6) { animation-delay: 0.35s; }
+    .grid > div:nth-child(7) { animation-delay: 0.4s; }
+    .grid > div:nth-child(8) { animation-delay: 0.45s; }
+    .grid > div:nth-child(9) { animation-delay: 0.5s; }
+    .grid > div:nth-child(10) { animation-delay: 0.55s; }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Button Ripple Effect */
+    button {
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    button:active::before {
+      animation: ripple 0.6s ease-out;
+    }
+
+    @keyframes ripple {
+      to {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+      }
+    }
+
+    /* Input Glow on Focus */
+    input:focus, select:focus, textarea:focus {
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15), inset 0 2px 4px rgba(20, 184, 166, 0.05), 0 0 20px rgba(20, 184, 166, 0.25) !important;
+    }
+
+    /* Smooth Label Animation */
+    label {
+      display: block;
+      position: relative;
+    }
+
+    label::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #14b8a6, #06b6d4);
+      transition: width 0.3s ease;
+    }
+
+    label:hover::after {
+      width: 100%;
+    }
+
+    /* Button Group Animation */
+    .flex.flex-wrap.gap-3 {
+      animation: staggerIn 0.8s ease-out;
+    }
+
+    @keyframes staggerIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Search Results Slide In */
+    #searchResultsCard {
+      animation: slideInCard 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes slideInCard {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Data Display Cards Stagger */
+    .grid.grid-cols-1.md\\:grid-cols-2 > div {
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    }
+
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(1) { animation-delay: 0.05s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(2) { animation-delay: 0.1s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(3) { animation-delay: 0.15s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(4) { animation-delay: 0.2s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(5) { animation-delay: 0.25s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(6) { animation-delay: 0.3s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(7) { animation-delay: 0.35s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(8) { animation-delay: 0.4s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(9) { animation-delay: 0.45s; }
+    .grid.grid-cols-1.md\\:grid-cols-2 > div:nth-child(10) { animation-delay: 0.5s; }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) rotateX(-10deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
+      }
+    }
+
+    /* Success Badge Pulse */
+    @keyframes successPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Text Selection Enhancement */
+    ::selection {
+      background: linear-gradient(135deg, #0891b2, #06b6d4);
+      color: white;
+    }
+
+    /* Focus Visible for Accessibility */
+    *:focus-visible {
+      outline: 2px solid #14b8a6;
+      outline-offset: 2px;
+    }
+
+    body { box-sizing: border-box; }
   </style>
-  <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100">
-  <div class="h-full overflow-auto"><!-- Toast Container -->
-   <div id="toastContainer" class="toast-container"></div><!-- Header -->
-   <header class="gradient-header text-white py-4 px-6 shadow-lg">
+ <body class="h-full bg-gradient-to-br from-cyan-50 via-teal-50 to-emerald-50">
+  <div class="h-full overflow-auto"><!-- Header -->
+   <header class="gradient-header text-white py-6 px-6 shadow-2xl">
     <div class="max-w-6xl mx-auto">
-     <div class="flex items-center justify-between mb-3">
+     <div class="flex items-center justify-between mb-4">
       <div></div>
       <div class="live-status">
-       <div class="status-dot"></div><span>ระบบนี้ออนไลน์นะครับ ✨</span>
+       <div class="status-dot"></div><span>ระบบออนไลน์ ✨</span>
       </div>
      </div>
-     <h1 id="systemTitle" class="text-xl md:text-2xl font-bold text-center">ระบบบันทึกข้อมูล สรุปรายงานการปฏิบัติงาน</h1>
-     <p class="text-center text-blue-100 text-sm mt-1"><a href="https://supportewp.doe.go.th" target="_blank" rel="noopener noreferrer" class="hover:text-white underline"> https://supportewp.doe.go.th </a></p>
+     <h1 id="systemTitle" class="text-3xl md:text-4xl font-bold text-center">ระบบบันทึกข้อมูล สรุปรายงานการปฏิบัติงาน</h1>
+     <p class="text-center text-cyan-100 text-sm mt-2"><a href="https://supportewp.doe.go.th" target="_blank" rel="noopener noreferrer" class="hover:text-white underline transition-all"> https://supportewp.doe.go.th </a></p>
     </div>
    </header>
-   <main class="max-w-6xl mx-auto p-4 md:p-6"><!-- Action Buttons -->
-    <div class="flex flex-wrap gap-3 mb-6 justify-center"><button onclick="showSearchModal()" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-md transition-all flex items-center gap-2">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+   <main class="max-w-6xl mx-auto p-4 md:p-8"><!-- Action Buttons -->
+    <div class="flex flex-wrap gap-3 mb-8 justify-center"><button onclick="showSearchModal()" class="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all flex items-center gap-2 transform hover:-translate-y-1">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg> เรียกดูข้อมูล Case จากฐานข้อมูล </button>
     </div><!-- Form Card -->
-    <div class="bg-white rounded-2xl card-shadow p-5 md:p-6 mb-6">
-     <div class="flex items-center gap-3 mb-5 pb-4 border-b-2 border-blue-100">
-      <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
-       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    <div class="bg-white rounded-3xl card-shadow p-6 md:p-8 mb-8 card-hover">
+     <div class="flex items-center gap-4 mb-6 pb-6 border-b-2 border-cyan-100">
+      <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
+       <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
        </svg>
       </div>
-      <h2 class="text-lg font-bold text-gray-800">บันทึกข้อมูล Case</h2>
+      <h2 class="text-2xl font-bold text-gray-800">บันทึกข้อมูล Case</h2>
      </div>
      <form id="caseForm" onsubmit="submitForm(event)">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"><!-- ลำดับที่ -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">ลำดับที่</label> <input type="number" id="sequence" name="sequence" min="1" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="กรอกลำดับที่" required>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"><!-- ลำดับที่ -->
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">ลำดับที่ <span class="text-xs text-gray-500">(อัตโนมัติ)</span></label> <input type="text" id="sequence" name="sequence" readonly placeholder="ไม่ต้องกรอก กลัวจะเหนื่อย" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-600 placeholder-gray-500 cursor-not-allowed font-medium">
        </div><!-- วันที่ปัจจุบัน -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">วันที่ปัจจุบัน</label> <input type="text" id="currentDate" name="currentDate" readonly class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed">
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่ปัจจุบัน</label> <input type="text" id="currentDate" name="currentDate" readonly class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed">
        </div><!-- ชื่อ-นามสกุล -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">ชื่อ-นามสกุล</label> <select id="staffName" name="staffName" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" required> <option value="">-- เลือกชื่อ-นามสกุล --</option> <optgroup label="👨 ผู้ชาย"> <option value="นายชุมพร บุญเหลี่ยม">นายชุมพร บุญเหลี่ยม</option> <option value="นายณรงค์ มั่นสกุล">นายณรงค์ มั่นสกุล</option> <option value="นายธณินทร ทัศนา">นายธณินทร ทัศนา</option> <option value="นายปโยธร พลกรณ์">นายปโยธร พลกรณ์</option> <option value="นายพงศกร โพธิเย็น">นายพงศกร โพธิเย็น</option> <option value="นายพงศ์พิพัฒน์ อยู่ทองจุ้ย">นายพงศ์พิพัฒน์ อยู่ทองจุ้ย</option> <option value="นายศุภกิตติ์ บุญแก้ว">นายศุภกิตติ์ บุญแก้ว</option> <option value="นายสุเมธ ยิ้มพงษ์">นายสุเมธ ยิ้มพงษ์</option> </optgroup> <optgroup label="👩 ผู้หญิง"> <option value="นางสาวกนกพร ภูชะหาร">นางสาวกนกพร ภูชะหาร</option> <option value="นางสาวกานต์พิชชา พิมพ์งาม">นางสาวกานต์พิชชา พิมพ์งาม</option> <option value="นางสาวกุลธิรัตน์ ทีปพรรธน์ธนา">นางสาวกุลธิรัตน์ ทีปพรรธน์ธนา</option> <option value="นางสาวฐิติวรดา อินทร์ประสิทธิ์">นางสาวฐิติวรดา อินทร์ประสิทธิ์</option> <option value="นางสาวทัศวรรณ โสปกระโทก">นางสาวทัศวรรณ โสปกระโทก</option> <option value="นางสาวธมกร พิมพ์งาม">นางสาวธมกร พิมพ์งาม</option> <option value="นางสาวนภาภรณ์ สุขเกษม">นางสาวนภาภรณ์ สุขเกษม</option> <option value="นางสาวนันทวรรณ บุญเหม">นางสาวนันทวรรณ บุญเหม</option> <option value="นางสาวนุศรา กลิ่นจุน">นางสาวนุศรา กลิ่นจุน</option> <option value="นางสาวพรพัสตร์ ช่วยบำรุง">นางสาวพรพัสตร์ ช่วยบำรุง</option> <option value="นางสาวพัชราภา สุทธิอาจ">นางสาวพัชราภา สุทธิอาจ</option> <option value="นางสาวพิมพ์นภัส กลิ่นบัว">นางสาวพิมพ์นภัส กลิ่นบัว</option> <option value="นางสาวภาณุมาศ สาลีนาค">นางสาวภาณุมาศ สาลีนาค</option> <option value="นางสาวมณฑกานต์ แจ่มใจ">นางสาวมณฑกานต์ แจ่มใจ</option> <option value="นางสาวเมขลา อุดมสิริสถาพร">นางสาวเมขลา อุดมสิริสถาพร</option> <option value="นางสาววรีรัตน์ สดชื่นจิต">นางสาววรีรัตน์ สดชื่นจิต</option> <option value="นางสาวศิริปรมินทร์ ขันติคเชนชาติ">นางสาวศิริปรมินทร์ ขันติคเชนชาติ</option> <option value="นางสุมาลี รักไทย">นางสุมาลี รักไทย</option> </optgroup> </select>
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">ชื่อ-นามสกุล <span class="text-red-600 text-lg font-bold">*</span></label> <select id="staffName" name="staffName" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" required> <option value="">-- เลือกชื่อ-นามสกุล --</option> <optgroup label="👨 ผู้ชาย"> <option value="นายชุมพร บุญเหลี่ยม">นายชุมพร บุญเหลี่ยม</option> <option value="นายณรงค์ มั่นสกุล">นายณรงค์ มั่นสกุล</option> <option value="นายธณินทร ทัศนา">นายธณินทร ทัศนา</option> <option value="นายปโยธร พลกรณ์">นายปโยธร พลกรณ์</option> <option value="นายพงศกร โพธิเย็น">นายพงศกร โพธิเย็น</option> <option value="นายพงศ์พิพัฒน์ อยู่ทองจุ้ย">นายพงศ์พิพัฒน์ อยู่ทองจุ้ย</option> <option value="นายศุภกิตติ์ บุญแก้ว">นายศุภกิตติ์ บุญแก้ว</option> <option value="นายสุเมธ ยิ้มพงษ์">นายสุเมธ ยิ้มพงษ์</option> </optgroup> <optgroup label="👩 ผู้หญิง"> <option value="นางสาวกนกพร ภูชะหาร">นางสาวกนกพร ภูชะหาร</option> <option value="นางสาวกานต์พิชชา พิมพ์งาม">นางสาวกานต์พิชชา พิมพ์งาม</option> <option value="นางสาวกุลธิรัตน์ ทีปพรรธน์ธนา">นางสาวกุลธิรัตน์ ทีปพรรธน์ธนา</option> <option value="นางสาวฐิติวรดา อินทร์ประสิทธิ์">นางสาวฐิติวรดา อินทร์ประสิทธิ์</option> <option value="นางสาวทัศวรรณ โสปกระโทก">นางสาวทัศวรรณ โสปกระโทก</option> <option value="นางสาวธมกร พิมพ์งาม">นางสาวธมกร พิมพ์งาม</option> <option value="นางสาวนภาภรณ์ สุขเกษม">นางสาวนภาภรณ์ สุขเกษม</option> <option value="นางสาวนันทวรรณ บุญเหม">นางสาวนันทวรรณ บุญเหม</option> <option value="นางสาวนุศรา กลิ่นจุน">นางสาวนุศรา กลิ่นจุน</option> <option value="นางสาวพรพัสตร์ ช่วยบำรุง">นางสาวพรพัสตร์ ช่วยบำรุง</option> <option value="นางสาวพัชราภา สุทธิอาจ">นางสาวพัชราภา สุทธิอาจ</option> <option value="นางสาวพิมพ์นภัส กลิ่นบัว">นางสาวพิมพ์นภัส กลิ่นบัว</option> <option value="นางสาวภาณุมาศ สาลีนาค">นางสาวภาณุมาศ สาลีนาค</option> <option value="นางสาวมณฑกานต์ แจ่มใจ">นางสาวมณฑกานต์ แจ่มใจ</option> <option value="นางสาวเมขลา อุดมสิริสถาพร">นางสาวเมขลา อุดมสิริสถาพร</option> <option value="นางสาววรีรัตน์ สดชื่นจิต">นางสาววรีรัตน์ สดชื่นจิต</option> <option value="นางสาวศิริปรมินทร์ ขันติคเชนชาติ">นางสาวศิริปรมินทร์ ขันติคเชนชาติ</option> <option value="นางสุมาลี รักไทย">นางสุมาลี รักไทย</option> </optgroup> </select>
        </div><!-- กลุ่มงาน -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">กลุ่มงาน</label> <select id="workGroup" name="workGroup" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" required> <option value="">-- เลือกกลุ่มงาน --</option> <option value="กลุ่ม 1">กลุ่ม 1</option> <option value="กลุ่ม 2">กลุ่ม 2</option> <option value="กลุ่ม 3">กลุ่ม 3</option> <option value="กลุ่ม 4">กลุ่ม 4</option> </select>
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">กลุ่มงาน <span class="text-red-600 text-lg font-bold">*</span></label> <select id="workGroup" name="workGroup" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" required> <option value="">-- เลือกกลุ่มงาน --</option> <option value="กลุ่ม 1">กลุ่ม 1</option> <option value="กลุ่ม 2">กลุ่ม 2</option> <option value="กลุ่ม 3">กลุ่ม 3</option> <option value="กลุ่ม 4">กลุ่ม 4</option> </select>
        </div><!-- หมายเลข Case -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">หมายเลข Case</label> <input type="text" id="caseNumber" name="caseNumber" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="กรอกหมายเลข Case" required>
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">หมายเลข Case <span class="text-red-600 text-lg font-bold">*</span></label> <input type="text" id="caseNumber" name="caseNumber" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" placeholder="กรอกหมายเลข Case" required>
        </div><!-- ประเภท Case -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">ประเภท Case</label> <select id="caseType" name="caseType" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" required> <option value="">-- เลือกประเภท Case --</option> <option value="ปัญหาระบบ">ปัญหาระบบ</option> <option value="ปัญหาข้อมูล">ปัญหาข้อมูล</option> <option value="ปัญหาการยื่น">ปัญหาการยื่น</option> <option value="ปัญหาการพิจารณา">ปัญหาการพิจารณา</option> <option value="อื่น ๆ">อื่น ๆ</option> </select>
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">ประเภท Case <span class="text-red-600 text-lg font-bold">*</span></label> <select id="caseType" name="caseType" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" required> <option value="">-- เลือกประเภท Case --</option> <option value="ปัญหาระบบ">ปัญหาระบบ</option> <option value="ปัญหาข้อมูล">ปัญหาข้อมูล</option> <option value="ปัญหาการยื่น">ปัญหาการยื่น</option> <option value="ปัญหาการพิจารณา">ปัญหาการพิจารณา</option> <option value="อื่น ๆ">อื่น ๆ</option> </select>
        </div><!-- วันเวลาที่ได้รับมอบ Case -->
-       <div class="md:col-span-2 lg:col-span-1"><label class="block text-sm font-semibold text-gray-700 mb-1.5">วันเวลาที่ได้รับมอบ Case</label> <input type="text" id="receivedDateTime" name="receivedDateTime" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="วาง (Paste) ข้อมูลวันเวลาที่นี่">
+       <div class="md:col-span-2 lg:col-span-1">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">วันเวลาที่ได้รับมอบ Case <span class="text-red-600 text-lg font-bold">*</span></label> <input type="text" id="receivedDateTime" name="receivedDateTime" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" placeholder="วาง (Paste) ข้อมูลวันเวลาที่นี่">
        </div><!-- ปัญหาจาก Case ที่พบ -->
-       <div class="md:col-span-2 lg:col-span-3"><label class="block text-sm font-semibold text-gray-700 mb-1.5">ปัญหาจาก Case ที่พบ</label> <textarea id="caseProblem" name="caseProblem" rows="3" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all resize-none" placeholder="อธิบายปัญหาที่พบจาก Case"></textarea>
+       <div class="md:col-span-2 lg:col-span-3">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">ปัญหาจาก Case ที่พบ <span class="text-red-600 text-lg font-bold">*</span></label> <textarea id="caseProblem" name="caseProblem" rows="3" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all resize-none" placeholder="อธิบายปัญหาที่พบจาก Case"></textarea>
        </div><!-- สถานะการดำเนินการ -->
-       <div class="md:col-span-2 lg:col-span-2"><label class="block text-sm font-semibold text-gray-700 mb-1.5">สถานะการดำเนินการ</label> <select id="status" name="status" class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" required> <option value="">-- เลือกสถานะ --</option> <option value="แก้ไขได้เองพร้อมปิดเคส">แก้ไขได้เองพร้อมปิดเคส</option> <option value="แจ้งคำตอบของ OS ให้นายจ้างทราบพร้อมปิดเคส">แจ้งคำตอบของ OS ให้นายจ้างทราบพร้อมปิดเคส</option> <option value="ปิดเคส">ปิดเคส</option> <option value="ผู้ยื่นแจ้งยกเลิก Case">ผู้ยื่นแจ้งยกเลิก Case</option> <option value="รอเอกสารเพิ่มเติม">รอเอกสารเพิ่มเติม</option> <option value="รอเอกสารเพิ่มเติม/สอบถามข้อมูลผู้ยื่น">รอเอกสารเพิ่มเติม/สอบถามข้อมูลผู้ยื่น</option> <option value="ส่งต่อกลุ่มงานพัฒนาระบบ">ส่งต่อกลุ่มงานพัฒนาระบบ</option> <option value="ส่งต่อกลุ่มงานพิจารณา 1">ส่งต่อกลุ่มงานพิจารณา 1</option> <option value="ส่งต่อกลุ่มงานมติ ครม">ส่งต่อกลุ่มงานมติ ครม</option> <option value="ส่งต่อฝ่ายทะเบียนเพื่อตรวจสอบข้อมูล">ส่งต่อฝ่ายทะเบียนเพื่อตรวจสอบข้อมูล</option> <option value="ส่งต่อ OS เพื่อแก้ไข">ส่งต่อ OS เพื่อแก้ไข</option> </select>
+       <div class="md:col-span-2 lg:col-span-2">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">สถานะการดำเนินการ <span class="text-red-600 text-lg font-bold">*</span></label> <select id="status" name="status" class="w-full px-4 py-2.5 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" required> <option value="">-- เลือกสถานะ --</option> <option value="แก้ไขได้เองพร้อมปิดเคส">แก้ไขได้เองพร้อมปิดเคส</option> <option value="แจ้งคำตอบของ OS ให้นายจ้างทราบพร้อมปิดเคส">แจ้งคำตอบของ OS ให้นายจ้างทราบพร้อมปิดเคส</option> <option value="ปิดเคส">ปิดเคส</option> <option value="ผู้ยื่นแจ้งยกเลิก Case">ผู้ยื่นแจ้งยกเลิก Case</option> <option value="รอเอกสารเพิ่มเติม">รอเอกสารเพิ่มเติม</option> <option value="รอเอกสารเพิ่มเติม/สอบถามข้อมูลผู้ยื่น">รอเอกสารเพิ่มเติม/สอบถามข้อมูลผู้ยื่น</option> <option value="ส่งต่อกลุ่มงานพัฒนาระบบ">ส่งต่อกลุ่มงานพัฒนาระบบ</option> <option value="ส่งต่อกลุ่มงานพิจารณา 1">ส่งต่อกลุ่มงานพิจารณา 1</option> <option value="ส่งต่อกลุ่มงานมติ ครม">ส่งต่อกลุ่มงานมติ ครม</option> <option value="ส่งต่อฝ่ายทะเบียนเพื่อตรวจสอบข้อมูล">ส่งต่อฝ่ายทะเบียนเพื่อตรวจสอบข้อมูล</option> <option value="ส่งต่อ OS เพื่อแก้ไข">ส่งต่อ OS เพื่อแก้ไข</option> </select>
        </div><!-- วันเวลาที่แจ้งสถานะล่าสุด -->
-       <div><label class="block text-sm font-semibold text-gray-700 mb-1.5">วันเวลาที่แจ้งสถานะล่าสุด</label> <input type="text" id="lastStatusDateTime" name="lastStatusDateTime" readonly class="w-full px-3 py-2 border-2 border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed">
+       <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">วันเวลาที่แจ้งสถานะล่าสุด</label> <input type="text" id="lastStatusDateTime" name="lastStatusDateTime" readonly class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed">
        </div>
       </div><!-- Buttons -->
-      <div class="flex flex-wrap gap-3 mt-6 pt-5 border-t-2 border-gray-100 justify-center"><button type="submit" id="submitBtn" class="btn-primary text-white px-6 py-2.5 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg> บันทึกข้อมูล </button> <button type="button" onclick="clearForm()" class="btn-danger text-white px-6 py-2.5 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      <div class="flex flex-wrap gap-4 mt-8 pt-6 border-t-2 border-gray-200 justify-center"><button type="submit" id="submitBtn" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg> บันทึกข้อมูล </button> <button type="button" onclick="clearForm()" class="btn-danger text-white px-8 py-3 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
         </svg> ล้างฟอร์ม </button>
       </div>
      </form>
-    </div><!-- Search Results Card (Hidden by default) -->
-    <div id="searchResultsCard" class="bg-white rounded-2xl card-shadow p-5 md:p-6 hidden">
-     <div class="flex items-center gap-3 mb-5 pb-4 border-b-2 border-green-100">
-      <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
-       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </div><!-- Search Results Card -->
+    <div id="searchResultsCard" class="bg-white rounded-3xl card-shadow p-6 md:p-8 hidden card-hover">
+     <div class="flex items-center gap-4 mb-6 pb-6 border-b-2 border-teal-100">
+      <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg">
+       <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
        </svg>
       </div>
-      <h2 class="text-lg font-bold text-gray-800">ข้อมูล Case ที่ค้นพบ</h2>
+      <h2 class="text-2xl font-bold text-gray-800">ข้อมูล Case ที่ค้นพบ</h2>
      </div>
      <div id="searchResultsContent"></div>
     </div>
    </main><!-- Footer -->
-   <footer class="bg-gray-800 text-white py-4 mt-8">
+   <footer class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-6 mt-12">
     <div class="max-w-6xl mx-auto px-4 text-center">
-     <p class="text-sm text-gray-300">© 2025 ระบบบันทึกข้อมูล Case - กรมการจัดหางาน</p>
+     <p class="text-sm text-gray-400">© 2026 ระบบบันทึกข้อมูล Case - Jeab</p>
     </div>
    </footer>
   </div><!-- Search Modal -->
   <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-   <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
-    <div class="flex items-center justify-between mb-4">
-     <h3 class="text-lg font-bold text-gray-800">ค้นหา Case จากฐานข้อมูล</h3><button onclick="closeSearchModal()" class="text-gray-400 hover:text-gray-600">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+   <div class="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
+    <div class="flex items-center justify-between mb-6">
+     <h3 class="text-xl font-bold text-gray-800">ค้นหา Case จากฐานข้อมูล</h3><button onclick="closeSearchModal()" class="text-gray-400 hover:text-gray-600 transition-all">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg></button>
     </div>
-    <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-2">หมายเลข Case</label> <input type="text" id="searchCaseNumber" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="กรอกหมายเลข Case ที่ต้องการค้นหา">
+    <div class="mb-6">
+     <label class="block text-sm font-semibold text-gray-700 mb-2">หมายเลข Case</label> <input type="text" id="searchCaseNumber" class="w-full px-4 py-3 border-2 border-cyan-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all" placeholder="กรอกหมายเลข Case ที่ต้องการค้นหา">
     </div>
-    <div class="flex gap-3"><button onclick="searchCase()" class="flex-1 btn-success text-white px-4 py-2.5 rounded-lg font-semibold transition-all"> ค้นหา </button> <button onclick="closeSearchModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2.5 rounded-lg font-semibold transition-all"> ยกเลิก </button>
+    <div class="flex gap-3"><button onclick="searchCase()" class="flex-1 btn-success text-white px-4 py-3 rounded-lg font-semibold transition-all"> ค้นหา </button> <button onclick="closeSearchModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-semibold transition-all"> ยกเลิก </button>
     </div>
    </div>
   </div>
   <script>
     // Configuration
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzW-wVSH0Kjgfe68Jytgfb2vKEUliHMfBlqGbY_qdXa1GawU9oV6EMfPen7dp1ZF_4m/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMcGMpXNVcgn8vJBcqnUDqgL2aIl-rNmYOFsmhGX81iYEWh0_i6hY3fXJVCCC_6xwD/exec';
     
     // Default configuration
     const defaultConfig = {
@@ -263,34 +777,151 @@
     let currentEditingRow = null;
     let isEditMode = false;
 
-    // Toast notification system
-    function showToast(message, type = 'success', duration = 3000) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      
-      let icon = '✓';
-      if (type === 'error') icon = '✕';
-      if (type === 'info') icon = 'ℹ';
-      
-      toast.innerHTML = `
-        <div class="toast-icon">${icon}</div>
-        <div class="toast-text">${message}</div>
-      `;
-      
-      container.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.classList.add('hide');
-        setTimeout(() => toast.remove(), 400);
-      }, duration);
-    }
-
     // Initialize
     document.addEventListener('DOMContentLoaded', function() {
       updateDateTime();
       setInterval(updateDateTime, 1000);
     });
+
+    // Toast notification function
+    function showToast(type, title, message) {
+      const toast = document.createElement('div');
+      toast.className = `toast-notification ${type}`;
+      toast.innerHTML = `
+        <span class="toast-icon">${type === 'success' ? '✓' : '✕'}</span>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      // Auto remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 400);
+      }, 3000);
+    }
+
+    // Show modal dialog
+    function showModal(type, title, text, onConfirm = null) {
+      let overlay = document.getElementById('genericModal');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'genericModal';
+        overlay.className = 'modal-overlay';
+        document.body.appendChild(overlay);
+      }
+
+      let buttonClass = 'modal-button-primary';
+      if (type === 'error') buttonClass = 'modal-button-danger';
+      if (type === 'warning') buttonClass = 'modal-button-primary';
+      if (type === 'info') buttonClass = 'modal-button-primary';
+
+      let icon = '✓';
+      if (type === 'error') icon = '✕';
+      if (type === 'warning') icon = '⚠';
+      if (type === 'info') icon = 'ℹ';
+
+      overlay.innerHTML = `
+        <div class="modal-content">
+          <div style="text-align: center; margin-bottom: 16px; font-size: 32px;">
+            ${icon}
+          </div>
+          <h2 class="modal-title">${title}</h2>
+          <p class="modal-text">${text}</p>
+          <div class="modal-buttons">
+            <button class="modal-button modal-button-${type === 'error' ? 'danger' : 'primary'}" onclick="closeModal()">
+              ตกลง
+            </button>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+      overlay.onclick = function(e) {
+        if (e.target === overlay) closeModal();
+      };
+
+      if (onConfirm) {
+        setTimeout(onConfirm, 300);
+      }
+    }
+
+    // Show confirmation dialog
+    function showConfirmModal(title, text, onConfirm, onCancel = null) {
+      let overlay = document.getElementById('confirmModal');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'confirmModal';
+        overlay.className = 'modal-overlay';
+        document.body.appendChild(overlay);
+      }
+
+      overlay.innerHTML = `
+        <div class="modal-content">
+          <div style="text-align: center; margin-bottom: 16px; font-size: 32px;">❓</div>
+          <h2 class="modal-title">${title}</h2>
+          <p class="modal-text">${text}</p>
+          <div class="modal-buttons">
+            <button class="modal-button modal-button-secondary" onclick="closeConfirmModal()">
+              ยกเลิก
+            </button>
+            <button class="modal-button modal-button-primary" onclick="confirmAction()">
+              ยืนยัน
+            </button>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+
+      window.confirmAction = function() {
+        closeConfirmModal();
+        if (onConfirm) onConfirm();
+      };
+
+      overlay.onclick = function(e) {
+        if (e.target === overlay) closeConfirmModal();
+      };
+    }
+
+    // Show loading modal
+    function showLoadingModal(message = 'กำลังบันทึกข้อมูล...') {
+      let overlay = document.getElementById('loadingModal');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'loadingModal';
+        overlay.className = 'modal-overlay';
+        document.body.appendChild(overlay);
+      }
+
+      overlay.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-loading">
+            <div class="spinner"></div>
+            <p style="color: #6b7280; font-size: 14px;">${message}</p>
+          </div>
+        </div>
+      `;
+
+      overlay.classList.remove('hidden');
+    }
+
+    function closeLoadingModal() {
+      const overlay = document.getElementById('loadingModal');
+      if (overlay) overlay.classList.add('hidden');
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('genericModal');
+      if (overlay) overlay.classList.add('hidden');
+    }
+
+    function closeConfirmModal() {
+      const overlay = document.getElementById('confirmModal');
+      if (overlay) overlay.classList.add('hidden');
+    }
 
     // Format Thai Date Time
     function formatThaiDateTime(date) {
@@ -317,32 +948,101 @@
     // Enable edit mode
     function enableEdit() {
       isEditMode = true;
-      Swal.fire({
-        icon: 'info',
-        title: 'โหมดแก้ไขข้อมูล',
-        text: 'คุณสามารถแก้ไขข้อมูลในฟอร์มได้แล้ว กรุณาแก้ไขข้อมูลแล้วกดบันทึก',
-        confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#3b82f6'
-      });
+      showModal('info', 'โหมดแก้ไขข้อมูล', 'คุณสามารถแก้ไขข้อมูลในฟอร์มได้แล้ว กรุณาแก้ไขข้อมูลแล้วกดบันทึก');
     }
+
     function clearForm() {
       Swal.fire({
         icon: 'question',
         title: 'ยืนยันการล้างฟอร์ม',
         text: 'คุณต้องการล้างข้อมูลในฟอร์มทั้งหมดหรือไม่?',
         showCancelButton: true,
-        confirmButtonText: 'ล้างฟอร์ม',
+        confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
         confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#6b7280'
+        cancelButtonColor: '#6b7280',
+        background: '#ffffff',
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '18px';
+          modal.querySelector('.swal2-title').style.fontWeight = '700';
+        }
       }).then((result) => {
         if (result.isConfirmed) {
-          document.getElementById('caseForm').reset();
-          updateDateTime();
-          currentEditingRow = null;
-          isEditMode = false;
-          document.getElementById('searchResultsCard').classList.add('hidden');
-          showToast('ล้างฟอร์มเรียบร้อยแล้ว', 'info');
+          const form = document.getElementById('caseForm');
+          form.classList.add('form-clearing');
+          
+          setTimeout(() => {
+            document.getElementById('caseForm').reset();
+            updateDateTime();
+            currentEditingRow = null;
+            isEditMode = false;
+            document.getElementById('searchResultsCard').classList.add('hidden');
+            form.classList.remove('form-clearing');
+            
+          Swal.fire({
+            icon: 'success',
+            title: 'ล้างฟอร์มเรียบร้อย ✨',
+            text: 'ฟอร์มถูกรีเซ็ตแล้ว พร้อมกรอกข้อมูลใหม่',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#14b8a6',
+            background: '#ffffff',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            }
+          });
+          }, 300);
+        }
+      });
+    }
+
+    // Check for duplicate Case Number from Google Sheet
+    function checkDuplicateCaseNumber(callback) {
+      const caseNumber = document.getElementById('caseNumber').value.trim();
+      
+      if (!caseNumber) {
+        callback({
+          caseNumber: caseNumber,
+          isDuplicate: false,
+          duplicateRecord: null,
+          error: 'กรุณากรอกหมายเลข Case'
+        });
+        return;
+      }
+
+      // Show loading while checking
+      Swal.fire({
+        title: 'กำลังตรวจสอบหมายเลข Case',
+        html: '<div class="spinner" style="margin: 20px auto; border: 4px solid #e5e7eb; border-top: 4px solid #06b6d4; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '16px';
+        }
+      });
+
+      sendJSONP({ 
+        action: 'checkDuplicate', 
+        caseNumber: caseNumber 
+      }, function(response) {
+        Swal.close();
+        
+        if (response && response.success !== undefined) {
+          callback({
+            caseNumber: caseNumber,
+            isDuplicate: response.success === false, // success: false means duplicate found
+            duplicateRecord: response.data || null,
+            error: response.message || null
+          });
+        } else {
+          callback({
+            caseNumber: caseNumber,
+            isDuplicate: false,
+            duplicateRecord: null,
+            error: 'ไม่สามารถตรวจสอบข้อมูลได้'
+          });
         }
       });
     }
@@ -350,10 +1050,13 @@
     // Submit form via JSONP
     function submitForm(event) {
       event.preventDefault();
-      
+      validateAndSubmit();
+    }
+
+    // Validate form and proceed with submission
+    function validateAndSubmit() {
       // Validate all required fields
       const requiredFields = [
-        { id: 'sequence', name: 'ลำดับที่' },
         { id: 'staffName', name: 'ชื่อ-นามสกุล' },
         { id: 'workGroup', name: 'กลุ่มงาน' },
         { id: 'caseNumber', name: 'หมายเลข Case' },
@@ -373,20 +1076,29 @@
 
       // If there are missing fields, show error alert
       if (missingFields.length > 0) {
+        const errorHTML = missingFields.map(field => `<li style="text-align: left; margin: 8px 0;">• ${field}</li>`).join('');
+        
         Swal.fire({
           icon: 'error',
           title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-          html: `<div style="text-align: left; padding: 10px;">
-            <p style="margin-bottom: 10px;">ฟิลด์ที่ยังไม่ได้กรอก:</p>
-            <ul style="list-style: none; padding: 0;">
-              ${missingFields.map(field => `<li style="padding: 5px 0; color: #dc2626;">• ${field}</li>`).join('')}
-            </ul>
-          </div>`,
+          html: `<div style="text-align: left;"><p style="margin-bottom: 12px; font-weight: 600;">ฟิลด์ที่ยังไม่ได้กรอก:</p><ul style="list-style: none; padding: 0; color: #dc2626;">${errorHTML}</ul></div>`,
           confirmButtonText: 'ตกลง',
-          confirmButtonColor: '#dc2626'
+          confirmButtonColor: '#0891b2',
+          background: '#ffffff',
+          didOpen: (modal) => {
+            modal.querySelector('.swal2-title').style.fontSize = '18px';
+            modal.querySelector('.swal2-title').style.fontWeight = '700';
+          }
         });
         return;
       }
+
+      // All validations passed - proceed with submit
+      proceedWithSubmit();
+    }
+
+    // Proceed with actual form submission
+    function proceedWithSubmit() {
       
       const caseNum = document.getElementById('caseNumber').value;
       const formData = {
@@ -406,40 +1118,51 @@
 
       // Show loading
       Swal.fire({
-        title: 'กำลังบันทึกข้อมูล...',
-        html: 'กรุณารอสักครู่',
+        title: 'กำลังบันทึกข้อมูล',
+        html: '<div class="spinner" style="margin: 20px auto; border: 4px solid #e5e7eb; border-top: 4px solid #06b6d4; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>',
         allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        allowEscapeKey: false,
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '16px';
         }
       });
 
       // Send via JSONP
       sendJSONP(formData, function(response) {
-        Swal.close();
         if (response && response.success) {
-          showToast(`✅ บันทึก Case: ${caseNum} เรียบร้อยแล้ว`, 'success', 4000);
+          const actionText = currentEditingRow ? 'อัปเดต' : 'บันทึก';
           Swal.fire({
             icon: 'success',
-            title: 'บันทึกสำเร็จ!',
-            text: currentEditingRow ? 'อัปเดตข้อมูลเรียบร้อยแล้ว' : 'บันทึกข้อมูลเรียบร้อยแล้ว',
+            title: `${actionText}สำเร็จ! ✅`,
+            text: `Case ${caseNum} ${actionText}เรียบร้อยแล้ว`,
             confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#16a34a'
-          }).then(() => {
-            document.getElementById('caseForm').reset();
-            updateDateTime();
-            currentEditingRow = null;
-            isEditMode = false;
-            document.getElementById('searchResultsCard').classList.add('hidden');
+            confirmButtonColor: '#14b8a6',
+            background: '#ffffff',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            },
+            willClose: () => {
+              document.getElementById('caseForm').reset();
+              updateDateTime();
+              currentEditingRow = null;
+              isEditMode = false;
+            }
           });
         } else {
-          showToast('❌ เกิดข้อผิดพลาด ไม่สามารถบันทึกได้', 'error', 4000);
           Swal.fire({
             icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: response ? response.message : 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
+            title: 'เกิดข้อผิดพลาด ❌',
+            text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
             confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#dc2626'
+            confirmButtonColor: '#dc2626',
+            background: '#ffffff',
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            }
           });
         }
       });
@@ -505,8 +1228,14 @@
         Swal.fire({
           icon: 'warning',
           title: 'กรุณากรอกหมายเลข Case',
+          text: 'ป้อนหมายเลข Case ที่ต้องการค้นหา',
           confirmButtonText: 'ตกลง',
-          confirmButtonColor: '#f59e0b'
+          confirmButtonColor: '#0891b2',
+          background: '#ffffff',
+          didOpen: (modal) => {
+            modal.querySelector('.swal2-title').style.fontSize = '18px';
+            modal.querySelector('.swal2-title').style.fontWeight = '700';
+          }
         });
         return;
       }
@@ -514,11 +1243,12 @@
       closeSearchModal();
 
       Swal.fire({
-        title: 'กำลังค้นหาข้อมูล...',
-        html: 'กรุณารอสักครู่',
+        title: 'กำลังค้นหาข้อมูล',
+        html: '<div class="spinner" style="margin: 20px auto; border: 4px solid #e5e7eb; border-top: 4px solid #06b6d4; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>',
         allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        allowEscapeKey: false,
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '16px';
         }
       });
 
@@ -533,7 +1263,12 @@
             title: 'ไม่พบข้อมูล',
             text: 'ไม่พบ Case หมายเลข ' + caseNumber + ' ในระบบ',
             confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#3b82f6'
+            confirmButtonColor: '#0891b2',
+            background: '#ffffff',
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            }
           });
         }
       });
@@ -565,57 +1300,57 @@
 
       content.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div class="bg-gray-50 rounded-lg p-3">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">ลำดับที่</span>
-            <p class="text-gray-800 font-semibold">${data.sequence || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.sequence || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">วันที่ปัจจุบัน</span>
-            <p class="text-gray-800 font-semibold">${data.currentDate || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.currentDate || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">ชื่อ-นามสกุล</span>
-            <p class="text-gray-800 font-semibold">${data.staffName || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.staffName || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">กลุ่มงาน</span>
-            <p class="text-gray-800 font-semibold">${data.workGroup || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.workGroup || '-'}</p>
           </div>
-          <div class="bg-blue-50 rounded-lg p-3 border-2 border-blue-200">
-            <span class="text-xs text-blue-600 font-medium">หมายเลข Case</span>
-            <p class="text-blue-800 font-bold text-lg">${data.caseNumber || '-'}</p>
+          <div class="bg-cyan-50 rounded-lg p-4 border-2 border-cyan-200">
+            <span class="text-xs text-cyan-600 font-medium">หมายเลข Case</span>
+            <p class="text-cyan-800 font-bold text-lg mt-1">${data.caseNumber || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3">
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">ประเภท Case</span>
-            <p class="text-gray-800 font-semibold">${data.caseType || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.caseType || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3 md:col-span-2">
+          <div class="bg-gray-50 rounded-lg p-4 md:col-span-2 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">วันเวลาที่ได้รับมอบ Case</span>
-            <p class="text-gray-800 font-semibold">${data.receivedDateTime || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.receivedDateTime || '-'}</p>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3 md:col-span-2">
+          <div class="bg-gray-50 rounded-lg p-4 md:col-span-2 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">ปัญหาจาก Case ที่พบ</span>
-            <p class="text-gray-800">${data.caseProblem || '-'}</p>
+            <p class="text-gray-800 mt-1">${data.caseProblem || '-'}</p>
           </div>
-          <div class="bg-green-50 rounded-lg p-3 md:col-span-2 border-2 border-green-200">
-            <span class="text-xs text-green-600 font-medium">สถานะการดำเนินการ (แก้ไขได้)</span>
-            <select id="editStatus" class="w-full mt-2 px-3 py-2 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+          <div class="bg-teal-50 rounded-lg p-4 md:col-span-2 border-2 border-teal-200">
+            <span class="text-xs text-teal-600 font-medium">สถานะการดำเนินการ (แก้ไขได้)</span>
+            <select id="editStatus" class="w-full mt-2 px-4 py-2 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200">
               ${statusOptionsHTML}
             </select>
           </div>
-          <div class="bg-gray-50 rounded-lg p-3 md:col-span-2">
+          <div class="bg-gray-50 rounded-lg p-4 md:col-span-2 border border-gray-200">
             <span class="text-xs text-gray-500 font-medium">วันเวลาที่แจ้งสถานะล่าสุด</span>
-            <p class="text-gray-800 font-semibold">${data.lastStatusDateTime || '-'}</p>
+            <p class="text-gray-800 font-semibold mt-1">${data.lastStatusDateTime || '-'}</p>
           </div>
         </div>
-        <div class="flex flex-wrap gap-3 justify-center pt-4 border-t-2 border-gray-100">
+        <div class="flex flex-wrap gap-3 justify-center pt-4 border-t-2 border-gray-200">
           <button onclick="updateStatus(${rowNumber}, '${data.caseNumber}')" class="btn-success text-white px-6 py-2.5 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             บันทึกการเปลี่ยนสถานะ
           </button>
-          <button onclick="loadToForm(${rowNumber})" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
+          <button onclick="loadToForm(${rowNumber})" class="bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white px-6 py-2.5 rounded-lg font-semibold shadow-md transition-all flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
             </svg>
@@ -639,11 +1374,12 @@
       const newLastStatusDateTime = formatThaiDateTime(now);
 
       Swal.fire({
-        title: 'กำลังอัปเดตสถานะ...',
-        html: 'กรุณารอสักครู่',
+        title: 'กำลังอัปเดตสถานะ',
+        html: '<div class="spinner" style="margin: 20px auto; border: 4px solid #e5e7eb; border-top: 4px solid #06b6d4; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>',
         allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        allowEscapeKey: false,
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '16px';
         }
       });
 
@@ -653,30 +1389,40 @@
         status: newStatus,
         lastStatusDateTime: newLastStatusDateTime
       }, function(response) {
-        Swal.close();
         if (response && response.success) {
-          showToast(`📝 บันทึกการเปลี่ยนสถานะ Case: ${caseNumber} เรียบร้อย`, 'success', 4000);
           Swal.fire({
             icon: 'success',
-            title: 'อัปเดตสถานะสำเร็จ!',
-            text: 'สถานะของ Case ' + caseNumber + ' ถูกเปลี่ยนแล้ว',
+            title: 'อัปเดตสถานะสำเร็จ! ✅',
+            text: `Case ${caseNumber} เปลี่ยนสถานะเรียบร้อยแล้ว`,
             confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#16a34a'
-          }).then(() => {
-            document.getElementById('caseForm').reset();
-            updateDateTime();
-            currentEditingRow = null;
-            isEditMode = false;
-            document.getElementById('searchResultsCard').classList.add('hidden');
+            confirmButtonColor: '#14b8a6',
+            background: '#ffffff',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            },
+            willClose: () => {
+              document.getElementById('caseForm').reset();
+              updateDateTime();
+              document.getElementById('searchResultsCard').classList.add('hidden');
+              currentEditingRow = null;
+              isEditMode = false;
+            }
           });
         } else {
-          showToast('❌ เกิดข้อผิดพลาด ไม่สามารถอัปเดตสถานะได้', 'error', 4000);
           Swal.fire({
             icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
+            title: 'เกิดข้อผิดพลาด ❌',
             text: 'ไม่สามารถอัปเดตสถานะได้ กรุณาลองใหม่',
             confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#dc2626'
+            confirmButtonColor: '#dc2626',
+            background: '#ffffff',
+            didOpen: (modal) => {
+              modal.querySelector('.swal2-title').style.fontSize = '18px';
+              modal.querySelector('.swal2-title').style.fontWeight = '700';
+            }
           });
         }
       });
@@ -709,7 +1455,14 @@
         title: 'โหลดข้อมูลสำเร็จ',
         text: 'ข้อมูลถูกโหลดไปยังฟอร์มแล้ว คุณสามารถแก้ไขและบันทึกได้',
         confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#3b82f6'
+        confirmButtonColor: '#0891b2',
+        background: '#ffffff',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (modal) => {
+          modal.querySelector('.swal2-title').style.fontSize = '18px';
+          modal.querySelector('.swal2-title').style.fontWeight = '700';
+        }
       });
     }
 
@@ -735,5 +1488,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d4d48e982be45be',t:'MTc3MjI1NDA1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d715cc1e3e84b7d',t:'MTc3MjYzMjM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
